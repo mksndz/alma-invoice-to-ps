@@ -14,7 +14,8 @@ class Invoice
   attr_accessor :budget_reference
 
   def initialize(invoice_node)
-
+    self.number = invoice_node.css('unique_identifier').inner_html
+    self.date = invoice_node.css('invoice_date').inner_html
   end
 
 end
