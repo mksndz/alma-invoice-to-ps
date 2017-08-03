@@ -17,14 +17,11 @@ data = Nokogiri File.read(file.path)
 invoices = data.css('invoice')
 
 number = invoices.length
+
 ios = []
 invoices.each do |invoice_node|
   ios << Invoice.new(invoice_node)
 end
 
 puts ios.length
-  # generate invoice object
 
-  # for each <invoiceline>
-
-    # generate invoice line
