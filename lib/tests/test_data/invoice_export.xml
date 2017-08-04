@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<payment_data xmlns="http://com/exlibris/repository/acq/invoice/xmlbeans">
+  <invoice_list>
+    <invoice>
+      <invoice_number>1234567890</invoice_number>
+      <invoice_owner>University of Georgia</invoice_owner>
+      <invoice_amount>
+        <currency>USD</currency>
+        <sum>100</sum>
+      </invoice_amount>
+      <vendor_code>testvendor</vendor_code>
+      <vendor_name>Test Vendor</vendor_name>
+      <vendor_liable_for_vat>false</vendor_liable_for_vat>
+      <vendor_payment_address_list>
+        <payment_address preferred="false">
+          <line1>1 Test Tower, Fl. 12</line1>
+          <city>New York</city>
+          <country>USA</country>
+          <note>Test Vendor Note</note>
+          <postalCode>10000</postalCode>
+          <stateProvince>NY</stateProvince>
+          <types>
+            <type>Payment</type>
+          </types>
+        </payment_address>
+      </vendor_payment_address_list>
+      <unique_identifier>1234567890123456</unique_identifier>
+      <invoice_date>05/10/2017</invoice_date>
+      <payment_method>ACCOUNTINGDEPARTMENT</payment_method>
+      <prepaid_ind>false</prepaid_ind>
+      <invoice_ownered_entity>
+        <createdBy>810000000</createdBy>
+        <creationDate>20170410</creationDate>
+        <customerId>2930</customerId>
+        <institutionId>2959</institutionId>
+        <modifiedBy>810000000</modifiedBy>
+      </invoice_ownered_entity>
+      <vat_info>
+        <expended_from_fund_ind>true</expended_from_fund_ind>
+        <inclusive_ind>true</inclusive_ind>
+        <vat_amount>0.0</vat_amount>
+        <vat_percentage>0.0</vat_percentage>
+        <vat_type>INCLUSIVE</vat_type>
+        <vat_in_invoice_line_level>false</vat_in_invoice_line_level>
+      </vat_info>
+      <invoice_line_list>
+        <invoice_line>
+          <line_number>1</line_number>
+          <line_type>REGULAR</line_type>
+          <note>5/4/2017-5/3/2018</note>
+          <quantity>1</quantity>
+          <reporting_code>sMRef elec</reporting_code>
+          <total_price>75.0</total_price>
+          <price>75.0</price>
+          <po_line_info>
+            <fully_Invoiced_ind>false</fully_Invoiced_ind>
+            <po_line_owner>Main Library</po_line_owner>
+            <mms_record_id>9931953013902959</mms_record_id>
+            <meta_data_values>
+              <acqterms_identifier>0511132972</acqterms_identifier>
+              <acqterms_identifierType>ISBN</acqterms_identifierType>
+              <acqterms_place>Cambridge [England] ;</acqterms_place>
+              <date>2006.</date>
+              <publisher>Test Press</publisher>
+            </meta_data_values>
+            <po_line_number>191174-ugadb</po_line_number>
+            <po_line_price>1.0</po_line_price>
+            <po_line_title>Advanced Underwater Basketweaving ebook.</po_line_title>
+          </po_line_info>
+          <fund_info_list>
+            <fund_info>
+              <amount>
+                <currency>USD</currency>
+                <sum>75.0</sum>
+              </amount>
+              <code>sMain.Reference-42-1776</code>
+              <name>sMain Reference</name>
+              <fiscal_period>FY-2017</fiscal_period>
+              <type>ALLOCATED</type>
+              <fund_type>4</fund_type>
+              <fund_type_desc>General</fund_type_desc>
+            </fund_info>
+          </fund_info_list>
+        </invoice_line>
+        <invoice_line>
+          <line_number>2</line_number>
+          <line_type>SHIPMENT</line_type>
+          <quantity>0</quantity>
+          <total_price>25.0</total_price>
+          <price>25.0</price>
+          <fund_info_list>
+            <fund_info>
+              <amount>
+                <currency>USD</currency>
+                <sum>25.0</sum>
+              </amount>
+              <code>xsh</code>
+              <name>xShipping &amp; Handling</name>
+              <fiscal_period>FY-2018</fiscal_period>
+              <type>ALLOCATED</type>
+              <fund_type>4</fund_type>
+              <fund_type_desc>General</fund_type_desc>
+            </fund_info>
+          </fund_info_list>
+        </invoice_line>
+      </invoice_line_list>
+    </invoice>
+  </invoice_list>
+</payment_data>
