@@ -33,4 +33,9 @@ class Invoice
     line_items
   end
 
+  def date_for_file
+    # TODO: format date for PS
+    date
+  end
+
 end
