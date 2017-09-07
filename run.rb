@@ -1,8 +1,8 @@
 require 'nokogiri'
 require 'csv'
 require_relative 'lib/objects/alma_xml_reader'
-require_relative 'lib/objects/invoice'
-require_relative 'lib/objects/output_generator'
+require_relative 'lib/objects/configs'
+require_relative 'lib/objects/transaction'
 
 file = nil
 files = Dir['data/*.xml']
@@ -11,12 +11,19 @@ files.each do |f|
   # get latest file
   file = fo if !file || (fo && fo.mtime > file.mtime)
 end
-ios = []
-AlmaXmlReader.invoice_nodes(file).each do |invoice_node|
-  ios << Invoice.new(invoice_node)
+
+@secrets      = Configs.read 'secrets'
+@defaults     = Configs.read 'defaults'
+@vendors      = Configs.read 'vendors'
+@chartstrings = Configs.read 'chartstrings'
+
+transactions = AlmaXmlReader.invoice_nodes(file).map do |node|
+  vendor = AlmaXmlReader.vendor_from node
+  chartstring = AlmaXmlReader.chartstring_from node
+  Transaction.new node, vendor, chartstring
 end
-og = OutputGenerator.new ios
-output_file = og.generate
+
+# Do templating
 
 puts 'Done'
 
