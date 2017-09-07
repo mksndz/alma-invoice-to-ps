@@ -1,0 +1,366 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+  <soapenv:Header>
+    <wsse:Security soapenv:mustUnderstand="1"
+      xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+      <wsse:UsernameToken>
+        <wsse:Username>
+          <%= @secrets.s_user %>
+        </wsse:Username>
+        <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">
+          <%= @secrets.s_pass %>
+        </wsse:Password>
+      </wsse:UsernameToken>
+    </wsse:Security>
+  </soapenv:Header>
+  <soapenv:Body>
+    <VOUCHER_BUILD xmlns="http://xmlns.oracle.com/Enterprise/Tools/schemas/VOUCHER_BUILD.VERSION_3">
+      <FieldTypes>
+        <VCHR_HDR_STG class="R">
+          <BUSINESS_UNIT type="CHAR" />
+          <VOUCHER_ID type="CHAR" />
+          <LEASE_PYMNT_DT type="DATE" />
+          <VOUCHER_STYLE type="CHAR" />
+          <INVOICE_ID type="CHAR" />
+          <INVOICE_DT type="DATE" />
+          <VENDOR_ID type="CHAR" />
+          <VNDR_LOC type="CHAR" />
+          <GRP_AP_ID type="CHAR" />
+          <ORIGIN type="CHAR" />
+          <OPRID type="CHAR" />
+          <ACCOUNTING_DT type="DATE" />
+          <POST_VOUCHER type="CHAR" />
+          <DST_CNTRL_ID type="CHAR" />
+          <VOUCHER_ID_RELATED type="CHAR" />
+          <GROSS_AMT type="NUMBER" />
+          <DSCNT_AMT type="NUMBER" />
+          <TAX_EXEMPT type="CHAR" />
+          <SALETX_AMT type="NUMBER" />
+          <FREIGHT_AMT type="NUMBER" />
+          <MISC_AMT type="NUMBER" />
+          <PYMNT_TERMS_CD type="CHAR" />
+          <ENTERED_DT type="DATE" />
+          <TXN_CURRENCY_CD type="CHAR" />
+          <RT_TYPE type="CHAR" />
+          <RATE_MULT type="NUMBER" />
+          <RATE_DIV type="NUMBER" />
+          <VAT_ENTRD_AMT type="NUMBER" />
+          <MATCH_ACTION type="CHAR" />
+          <CUR_RT_SOURCE type="CHAR" />
+          <DSCNT_AMT_FLG type="CHAR" />
+          <DUE_DT_FLG type="CHAR" />
+          <VCHR_APPRVL_FLG type="CHAR" />
+          <BUSPROCNAME type="CHAR" />
+          <APPR_RULE_SET type="CHAR" />
+          <VAT_DCLRTN_POINT type="CHAR" />
+          <VAT_CALC_TYPE type="CHAR" />
+          <VAT_CALC_GROSS_NET type="CHAR" />
+          <VAT_RECALC_FLG type="CHAR" />
+          <VAT_CALC_FRGHT_FLG type="CHAR" />
+          <VAT_TREATMENT_GRP type="CHAR" />
+          <COUNTRY_SHIP_FROM type="CHAR" />
+          <STATE_SHIP_FROM type="CHAR" />
+          <COUNTRY_SHIP_TO type="CHAR" />
+          <STATE_SHIP_TO type="CHAR" />
+          <COUNTRY_VAT_BILLFR type="CHAR" />
+          <COUNTRY_VAT_BILLTO type="CHAR" />
+          <VAT_EXCPTN_CERTIF type="CHAR" />
+          <VAT_ROUND_RULE type="CHAR" />
+          <COUNTRY_LOC_SELLER type="CHAR" />
+          <STATE_LOC_SELLER type="CHAR" />
+          <COUNTRY_LOC_BUYER type="CHAR" />
+          <STATE_LOC_BUYER type="CHAR" />
+          <COUNTRY_VAT_SUPPLY type="CHAR" />
+          <STATE_VAT_SUPPLY type="CHAR" />
+          <COUNTRY_VAT_PERFRM type="CHAR" />
+          <STATE_VAT_PERFRM type="CHAR" />
+          <STATE_VAT_DEFAULT type="CHAR" />
+          <PREPAID_REF type="CHAR" />
+          <PREPAID_AUTO_APPLY type="CHAR" />
+          <DESCR254_MIXED type="CHAR" />
+          <EIN_FEDERAL type="CHAR" />
+          <EIN_STATE_LOCAL type="CHAR" />
+          <BUSINESS_UNIT_PO type="CHAR" />
+          <PO_ID type="CHAR" />
+          <PACKSLIP_NO type="CHAR" />
+          <PAY_TRM_BSE_DT_OPT type="CHAR" />
+          <VAT_CALC_MISC_FLG type="CHAR" />
+          <PAY_SCHEDULE_TYPE type="CHAR" />
+          <TAX_GRP type="CHAR" />
+          <TAX_PYMNT_TYPE type="CHAR" />
+          <INSPECT_DT type="DATE" />
+          <INV_RECPT_DT type="DATE" />
+          <RECEIPT_DT type="DATE" />
+          <BILL_OF_LADING type="CHAR" />
+          <CARRIER_ID type="CHAR" />
+          <DOC_TYPE type="CHAR" />
+          <DSCNT_DUE_DT type="DATE" />
+          <DSCNT_PRORATE_FLG type="CHAR" />
+          <DUE_DT type="DATE" />
+          <FRGHT_CHARGE_CODE type="CHAR" />
+          <LC_ID type="CHAR" />
+          <MISC_CHARGE_CODE type="CHAR" />
+          <REMIT_ADDR_SEQ_NUM type="NUMBER" />
+          <SALETX_CHARGE_CODE type="CHAR" />
+          <VCHR_BLD_CODE type="CHAR" />
+          <BUSINESS_UNIT_AR type="CHAR" />
+          <CUST_ID type="CHAR" />
+          <ITEM type="CHAR" />
+          <ITEM_LINE type="NUMBER" />
+          <VCHR_SRC type="CHAR" />
+          <VAT_EXCPTN_TYPE type="CHAR" />
+          <TERMS_BASIS_DT type="DATE" />
+          <BUSINESS_UNIT_AM type="CHAR" />
+          <ASSET_ID type="CHAR" />
+          <LEASE_ID type="CHAR" />
+          <CLAIM_NO type="CHAR" />
+          <POLICY_NUM type="CHAR" />
+          <ENDORSER_PARTY type="CHAR" />
+          <USER_VCHR_CHAR1 type="CHAR" />
+          <USER_VCHR_CHAR2 type="CHAR" />
+          <USER_VCHR_DEC type="NUMBER" />
+          <USER_VCHR_DATE type="DATE" />
+          <USER_VCHR_NUM1 type="NUMBER" />
+          <USER_HDR_CHAR1 type="CHAR" />
+        </VCHR_HDR_STG>
+        <VCHR_LINE_STG class="R">
+          <BUSINESS_UNIT type="CHAR" />
+          <VOUCHER_ID type="CHAR" />
+          <LEASE_PYMNT_DT type="DATE" />
+          <VOUCHER_LINE_NUM type="NUMBER" />
+          <BUSINESS_UNIT_PO type="CHAR" />
+          <PO_ID type="CHAR" />
+          <LINE_NBR type="NUMBER" />
+          <SCHED_NBR type="NUMBER" />
+          <DESCR type="CHAR" />
+          <MERCHANDISE_AMT type="NUMBER" />
+          <ITM_SETID type="CHAR" />
+          <INV_ITEM_ID type="CHAR" />
+          <QTY_VCHR type="NUMBER" />
+          <STATISTIC_AMOUNT type="NUMBER" />
+          <UNIT_OF_MEASURE type="CHAR" />
+          <UNIT_PRICE type="NUMBER" />
+          <DSCNT_APPL_FLG type="CHAR" />
+          <TAX_CD_VAT type="CHAR" />
+          <BUSINESS_UNIT_RECV type="CHAR" />
+          <RECEIVER_ID type="CHAR" />
+          <RECV_LN_NBR type="NUMBER" />
+          <RECV_SHIP_SEQ_NBR type="NUMBER" />
+          <MATCH_LINE_OPT type="CHAR" />
+          <DISTRIB_MTHD_FLG type="CHAR" />
+          <SHIPTO_ID type="CHAR" />
+          <SUT_BASE_ID type="CHAR" />
+          <TAX_CD_SUT type="CHAR" />
+          <ULTIMATE_USE_CD type="CHAR" />
+          <SUT_EXCPTN_TYPE type="CHAR" />
+          <SUT_EXCPTN_CERTIF type="CHAR" />
+          <SUT_APPLICABILITY type="CHAR" />
+          <VAT_APPLICABILITY type="CHAR" />
+          <VAT_TXN_TYPE_CD type="CHAR" />
+          <VAT_USE_ID type="CHAR" />
+          <ADDR_SEQ_NUM_SHIP type="NUMBER" />
+          <DESCR254_MIXED type="CHAR" />
+          <BUSINESS_UNIT_GL type="CHAR" />
+          <ACCOUNT type="CHAR" />
+          <ALTACCT type="CHAR" />
+          <OPERATING_UNIT type="CHAR" />
+          <PRODUCT type="CHAR" />
+          <FUND_CODE type="CHAR" />
+          <CLASS_FLD type="CHAR" />
+          <PROGRAM_CODE type="CHAR" />
+          <BUDGET_REF type="CHAR" />
+          <AFFILIATE type="CHAR" />
+          <AFFILIATE_INTRA1 type="CHAR" />
+          <AFFILIATE_INTRA2 type="CHAR" />
+          <CHARTFIELD1 type="CHAR" />
+          <CHARTFIELD2 type="CHAR" />
+          <CHARTFIELD3 type="CHAR" />
+          <DEPTID type="CHAR" />
+          <PROJECT_ID type="CHAR" />
+          <BUSINESS_UNIT_PC type="CHAR" />
+          <ACTIVITY_ID type="CHAR" />
+          <ANALYSIS_TYPE type="CHAR" />
+          <RESOURCE_TYPE type="CHAR" />
+          <RESOURCE_CATEGORY type="CHAR" />
+          <RESOURCE_SUB_CAT type="CHAR" />
+          <TAX_DSCNT_FLG type="CHAR" />
+          <TAX_FRGHT_FLG type="CHAR" />
+          <TAX_MISC_FLG type="CHAR" />
+          <TAX_VAT_FLG type="CHAR" />
+          <PHYSICAL_NATURE type="CHAR" />
+          <VAT_RCRD_INPT_FLG type="CHAR" />
+          <VAT_RCRD_OUTPT_FLG type="CHAR" />
+          <VAT_TREATMENT type="CHAR" />
+          <VAT_SVC_SUPPLY_FLG type="CHAR" />
+          <VAT_SERVICE_TYPE type="CHAR" />
+          <COUNTRY_LOC_BUYER type="CHAR" />
+          <STATE_LOC_BUYER type="CHAR" />
+          <COUNTRY_LOC_SELLER type="CHAR" />
+          <STATE_LOC_SELLER type="CHAR" />
+          <COUNTRY_VAT_SUPPLY type="CHAR" />
+          <STATE_VAT_SUPPLY type="CHAR" />
+          <COUNTRY_VAT_PERFRM type="CHAR" />
+          <STATE_VAT_PERFRM type="CHAR" />
+          <STATE_SHIP_FROM type="CHAR" />
+          <STATE_VAT_DEFAULT type="CHAR" />
+          <REQUESTOR_ID type="CHAR" />
+          <IST_TXN_FLG type="CHAR" />
+          <WTHD_SW type="CHAR" />
+          <WTHD_CD type="CHAR" />
+          <MFG_ID type="CHAR" />
+          <USER_VCHR_CHAR1 type="CHAR" />
+          <USER_VCHR_CHAR2 type="CHAR" />
+          <USER_VCHR_DEC type="NUMBER" />
+          <USER_VCHR_DATE type="DATE" />
+          <USER_VCHR_NUM1 type="NUMBER" />
+          <USER_LINE_CHAR1 type="CHAR" />
+          <USER_SCHED_CHAR1 type="CHAR" />
+          <VAT_RVRSE_CHG_GDS type="CHAR" />
+        </VCHR_LINE_STG>
+        <VCHR_PYMT_STG class="R">
+          <BUSINESS_UNIT type="CHAR" />
+          <VOUCHER_ID type="CHAR" />
+          <LEASE_PYMNT_DT type="DATE" />
+          <PYMNT_CNT type="NUMBER" />
+          <BANK_CD type="CHAR" />
+          <BANK_ACCT_KEY type="CHAR" />
+          <PYMNT_METHOD type="CHAR" />
+          <PYMNT_MESSAGE type="CHAR" />
+          <PYMNT_HANDLING_CD type="CHAR" />
+          <PYMNT_HOLD type="CHAR" />
+          <PYMNT_HOLD_REASON type="CHAR" />
+          <MESSAGE_CD type="CHAR" />
+          <PYMNT_GROSS_AMT type="NUMBER" />
+          <PYMNT_SEPARATE type="CHAR" />
+          <SCHEDULED_PAY_DT type="DATE" />
+          <PYMNT_GROUP_CD type="CHAR" />
+          <EFT_LAYOUT_CD type="CHAR" />
+        </VCHR_PYMT_STG>
+        <VCHR_DIST_STG class="R">
+          <BUSINESS_UNIT type="CHAR" />
+          <VOUCHER_ID type="CHAR" />
+          <LEASE_PYMNT_DT type="DATE" />
+          <VOUCHER_LINE_NUM type="NUMBER" />
+          <DISTRIB_LINE_NUM type="NUMBER" />
+          <BUSINESS_UNIT_GL type="CHAR" />
+          <ACCOUNT type="CHAR" />
+          <ALTACCT type="CHAR" />
+          <DEPTID type="CHAR" />
+          <STATISTICS_CODE type="CHAR" />
+          <STATISTIC_AMOUNT type="NUMBER" />
+          <QTY_VCHR type="NUMBER" />
+          <DESCR type="CHAR" />
+          <MERCHANDISE_AMT type="NUMBER" />
+          <BUSINESS_UNIT_PO type="CHAR" />
+          <PO_ID type="CHAR" />
+          <LINE_NBR type="NUMBER" />
+          <SCHED_NBR type="NUMBER" />
+          <PO_DIST_LINE_NUM type="NUMBER" />
+          <BUSINESS_UNIT_PC type="CHAR" />
+          <ACTIVITY_ID type="CHAR" />
+          <ANALYSIS_TYPE type="CHAR" />
+          <RESOURCE_TYPE type="CHAR" />
+          <RESOURCE_CATEGORY type="CHAR" />
+          <RESOURCE_SUB_CAT type="CHAR" />
+          <ASSET_FLG type="CHAR" />
+          <BUSINESS_UNIT_AM type="CHAR" />
+          <ASSET_ID type="CHAR" />
+          <PROFILE_ID type="CHAR" />
+          <COST_TYPE type="CHAR" />
+          <VAT_TXN_TYPE_CD type="CHAR" />
+          <RECV_DIST_LINE_NUM type="NUMBER" />
+          <OPERATING_UNIT type="CHAR" />
+          <PRODUCT type="CHAR" />
+          <FUND_CODE type="CHAR" />
+          <CLASS_FLD type="CHAR" />
+          <PROGRAM_CODE type="CHAR" />
+          <BUDGET_REF type="CHAR" />
+          <AFFILIATE type="CHAR" />
+          <AFFILIATE_INTRA1 type="CHAR" />
+          <AFFILIATE_INTRA2 type="CHAR" />
+          <CHARTFIELD1 type="CHAR" />
+          <CHARTFIELD2 type="CHAR" />
+          <CHARTFIELD3 type="CHAR" />
+          <PROJECT_ID type="CHAR" />
+          <BUDGET_DT type="DATE" />
+          <ENTRY_EVENT type="CHAR" />
+          <JRNL_LN_REF type="CHAR" />
+          <VAT_APORT_CNTRL type="CHAR" />
+          <USER_VCHR_CHAR1 type="CHAR" />
+          <USER_VCHR_CHAR2 type="CHAR" />
+          <USER_VCHR_DEC type="NUMBER" />
+          <USER_VCHR_DATE type="DATE" />
+          <USER_VCHR_NUM1 type="NUMBER" />
+          <USER_DIST_CHAR1 type="CHAR" />
+          <OPEN_ITEM_KEY type="CHAR" />
+        </VCHR_DIST_STG>
+        <PSCAMA class="R">
+          <AUDIT_ACTN type="CHAR" />
+        </PSCAMA>
+      </FieldTypes>
+      <MsgData>
+        <!-- One transaction per check -->
+        <% @transactions.each do |t| %>
+        <Transaction>
+          <VCHR_HDR_STG class="R">
+            <BUSINESS_UNIT><%= @defaults.gl_business_unit %></BUSINESS_UNIT>
+            <VOUCHER_ID><%= @defaults.voucher_id %></VOUCHER_ID>
+            <LEASE_PYMNT_DT><%= @current_date %></LEASE_PYMNT_DT>
+            <!-- Invoice ID (Contents TBD) - VARCHAR2(30) -->
+            <INVOICE_ID><%= t.invoice_id %></INVOICE_ID>
+            <INVOICE_DT><%= t.inovice_date %></INVOICE_DT>
+            <VENDOR_ID><%= t.vendor.id %></VENDOR_ID>
+            <VENDOR_LOC><%= t.vendor.loc %></VENDOR_LOC>
+            <GRP_AP_ID><%= @defaults.grp_ap_id %></GRP_AP_ID>
+            <!-- MyID of who is responsible for approving the Control Group - Max 30 Chars -->
+            <!-- This will deermine who approves payments in PS -->
+            <OPRID><%= @secrets.owner_myid %></OPRID>
+            <ACCOUNTING_DT><%= @current_date %></ACCOUNTING_DT>
+            <!-- Sum of all line items NUMBER(26,3) -->
+            <GROSS_AMT><%= t.amount %></GROSS_AMT>
+            <MISC_CHARGE_CODE>A</MISC_CHARGE_CODE>
+            <VCHR_SRC>XML</VCHR_SRC>
+            <!-- Line Items follow... -->
+            <% t.line_items.each do |line_item| %>
+            <VCHR_LINE_STG class="R">
+              <BUSINESS_UNIT><%= @defaults.gl_business_unit %></BUSINESS_UNIT>
+              <VOUCHER_ID><%= @defaults.voucher_id %></VOUCHER_ID>
+              <!-- Current date: CCYY-MM-DD -->
+              <LEASE_PYMNT_DT><%= @current_date %></LEASE_PYMNT_DT>
+              <VOUCHER_LINE_NUM><%= line_item.number %></VOUCHER_LINE_NUM>
+              <!-- Line item amount - NUMBER(26,3)-->
+              <MERCHANDISE_AMT><%= line_item.amount %></MERCHANDISE_AMT>
+              <BUSINESS_UNIT_GL>18000</BUSINESS_UNIT_GL>
+              <!-- a distribution line - should be one for each line item for us -->
+              <% line_item.discharges.each do |dis| %>
+              <VCHR_DIST_STG class="R">
+                <BUSINESS_UNIT><%= @defaults.gl_business_unit %></BUSINESS_UNIT>
+                <VOUCHER_ID><%= @defaults.voucher_id %></VOUCHER_ID>
+                <LEASE_PYMNT_DT><%= @current_date %></LEASE_PYMNT_DT>
+                <!-- Same as parent node -->
+                <VOUCHER_LINE_NUM><%= line_item.number %></VOUCHER_LINE_NUM>
+                <!-- Always 1 (unless for some reason funding comes from both funding sources) -->
+                <DISTRIB_LINE_NUM><%= dis.number %></DISTRIB_LINE_NUM>
+                <!-- Beginning of Chart Field -->
+                <BUSINESS_UNIT_GL><%= @defaults.gl_business_unit %></BUSINESS_UNIT_GL>
+                <ACCOUNT><%= dis.chartstring.account %></ACCOUNT>
+                <DEPTID><%= dis.chartstring.dept_id %></DEPTID>
+                <!-- Amount from parent node NUMBER(26,3) -->
+                <MERCHANDISE_AMT><%= dis.amount %></MERCHANDISE_AMT>
+                <FUND_CODE><%= dis.chartstring.fund_code %></FUND_CODE>
+                <CLASS_FLD><%= dis.chartstring.class_field %></CLASS_FLD>
+                <PROGRAM_CODE><%= dis.chartstring.program_code %></PROGRAM_CODE>
+                <!-- Jul 1 - Jun 30 (we are in FY18 now) -->
+                <BUDGET_REF><%= dis.fiscal_year %></BUDGET_REF>
+              </VCHR_DIST_STG>
+            </VCHR_LINE_STG>
+            <% end %>
+          </VCHR_HDR_STG>
+          <PSCAMA class="R">
+            <AUDIT_ACTN><%= @defaults.audit_actn %></AUDIT_ACTN>
+          </PSCAMA>
+        </Transaction>
+        <% end %>
+      </MsgData>
+    </VOUCHER_BUILD>
+  </soapenv:Body>
+</soapenv:Envelope>
