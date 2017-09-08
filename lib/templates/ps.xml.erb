@@ -4,10 +4,10 @@
       xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
       <wsse:UsernameToken>
         <wsse:Username>
-          <%= @secrets.s_user %>
+          <%= secrets.s_user %>
         </wsse:Username>
         <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">
-          <%= @secrets.s_pass %>
+          <%= secrets.s_pass %>
         </wsse:Password>
       </wsse:UsernameToken>
     </wsse:Security>
@@ -297,69 +297,54 @@
           <AUDIT_ACTN type="CHAR" />
         </PSCAMA>
       </FieldTypes>
-      <MsgData>
-        <!-- One transaction per check -->
-        <% @transactions.each do |t| %>
+      <MsgData><% transactions.each do |t| %>
         <Transaction>
           <VCHR_HDR_STG class="R">
-            <BUSINESS_UNIT><%= @defaults.gl_business_unit %></BUSINESS_UNIT>
-            <VOUCHER_ID><%= @defaults.voucher_id %></VOUCHER_ID>
-            <LEASE_PYMNT_DT><%= @current_date %></LEASE_PYMNT_DT>
-            <!-- Invoice ID (Contents TBD) - VARCHAR2(30) -->
+            <BUSINESS_UNIT><%= defaults.gl_business_unit %></BUSINESS_UNIT>
+            <VOUCHER_ID><%= defaults.voucher_id %></VOUCHER_ID>
+            <LEASE_PYMNT_DT><%= current_date %></LEASE_PYMNT_DT>
             <INVOICE_ID><%= t.invoice_id %></INVOICE_ID>
-            <INVOICE_DT><%= t.inovice_date %></INVOICE_DT>
-            <VENDOR_ID><%= t.vendor.id %></VENDOR_ID>
-            <VENDOR_LOC><%= t.vendor.loc %></VENDOR_LOC>
-            <GRP_AP_ID><%= @defaults.grp_ap_id %></GRP_AP_ID>
-            <!-- MyID of who is responsible for approving the Control Group - Max 30 Chars -->
-            <!-- This will deermine who approves payments in PS -->
-            <OPRID><%= @secrets.owner_myid %></OPRID>
-            <ACCOUNTING_DT><%= @current_date %></ACCOUNTING_DT>
+            <INVOICE_DT><%= t.invoice_date %></INVOICE_DT>
+            <VENDOR_ID><%= t.vendor_id %></VENDOR_ID>
+            <VENDOR_LOC><%= t.vendor_loc %></VENDOR_LOC>
+            <GRP_AP_ID><%= defaults.grp_ap_id %></GRP_AP_ID>
+            <OPRID><%= secrets.owner_myid %></OPRID>
+            <ACCOUNTING_DT><%= current_date %></ACCOUNTING_DT>
             <!-- Sum of all line items NUMBER(26,3) -->
             <GROSS_AMT><%= t.amount %></GROSS_AMT>
-            <MISC_CHARGE_CODE><%= @defaults.misc_charge_code %></MISC_CHARGE_CODE>
-            <VCHR_SRC><%= @defaults.vchr_src %></VCHR_SRC>
-            <!-- Line Items follow... -->
-            <% t.line_items.each do |line_item| %>
+            <MISC_CHARGE_CODE><%= defaults.misc_charge_code %></MISC_CHARGE_CODE>
+            <VCHR_SRC><%= defaults.vchr_src %></VCHR_SRC>
+            <!-- Line Items follow... --><% t.line_items.each do |line_item| %>
             <VCHR_LINE_STG class="R">
-              <BUSINESS_UNIT><%= @defaults.gl_business_unit %></BUSINESS_UNIT>
-              <VOUCHER_ID><%= @defaults.voucher_id %></VOUCHER_ID>
+              <BUSINESS_UNIT><%= defaults.gl_business_unit %></BUSINESS_UNIT>
+              <VOUCHER_ID><%= defaults.voucher_id %></VOUCHER_ID>
               <!-- Current date: CCYY-MM-DD -->
-              <LEASE_PYMNT_DT><%= @current_date %></LEASE_PYMNT_DT>
+              <LEASE_PYMNT_DT><%= current_date %></LEASE_PYMNT_DT>
               <VOUCHER_LINE_NUM><%= line_item.number %></VOUCHER_LINE_NUM>
               <!-- Line item amount - NUMBER(26,3)-->
               <MERCHANDISE_AMT><%= line_item.amount %></MERCHANDISE_AMT>
-              <BUSINESS_UNIT_GL><%= @defaults.gl_business_unit %></BUSINESS_UNIT_GL>
-              <!-- a distribution line - should be one for each line item for us -->
-              <% line_item.discharges.each do |dis| %>
+              <BUSINESS_UNIT_GL><%= defaults.gl_business_unit %></BUSINESS_UNIT_GL><% line_item.discharges.each do |dis| %>
               <VCHR_DIST_STG class="R">
-                <BUSINESS_UNIT><%= @defaults.gl_business_unit %></BUSINESS_UNIT>
-                <VOUCHER_ID><%= @defaults.voucher_id %></VOUCHER_ID>
-                <LEASE_PYMNT_DT><%= @current_date %></LEASE_PYMNT_DT>
-                <!-- Same as parent node -->
+                <BUSINESS_UNIT><%= defaults.gl_business_unit %></BUSINESS_UNIT>
+                <VOUCHER_ID><%= defaults.voucher_id %></VOUCHER_ID>
+                <LEASE_PYMNT_DT><%= current_date %></LEASE_PYMNT_DT>
                 <VOUCHER_LINE_NUM><%= line_item.number %></VOUCHER_LINE_NUM>
-                <!-- Always 1 (unless for some reason funding comes from both funding sources) -->
                 <DISTRIB_LINE_NUM><%= dis.number %></DISTRIB_LINE_NUM>
-                <!-- Beginning of Chart Field -->
-                <BUSINESS_UNIT_GL><%= @defaults.gl_business_unit %></BUSINESS_UNIT_GL>
+                <BUSINESS_UNIT_GL><%= defaults.gl_business_unit %></BUSINESS_UNIT_GL>
                 <ACCOUNT><%= dis.chartstring.account %></ACCOUNT>
                 <DEPTID><%= dis.chartstring.department_code %></DEPTID>
-                <!-- Amount from parent node NUMBER(26,3) -->
                 <MERCHANDISE_AMT><%= dis.amount %></MERCHANDISE_AMT>
                 <FUND_CODE><%= dis.chartstring.fund_code %></FUND_CODE>
                 <CLASS_FLD><%= dis.chartstring.class_field %></CLASS_FLD>
                 <PROGRAM_CODE><%= dis.chartstring.program_code %></PROGRAM_CODE>
-                <!-- Jul 1 - Jun 30 (we are in FY18 now) -->
                 <BUDGET_REF><%= dis.fiscal_year %></BUDGET_REF>
-              </VCHR_DIST_STG>
-            </VCHR_LINE_STG>
-            <% end %>
+              </VCHR_DIST_STG><% end %>
+            </VCHR_LINE_STG><% end %>
           </VCHR_HDR_STG>
           <PSCAMA class="R">
-            <AUDIT_ACTN><%= @defaults.audit_actn %></AUDIT_ACTN>
+            <AUDIT_ACTN><%= defaults.audit_actn %></AUDIT_ACTN>
           </PSCAMA>
-        </Transaction>
-        <% end %>
+        </Transaction><% end %>
       </MsgData>
     </VOUCHER_BUILD>
   </soapenv:Body>

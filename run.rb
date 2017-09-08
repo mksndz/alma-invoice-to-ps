@@ -1,30 +1,42 @@
-require 'nokogiri'
-require 'csv'
+require 'net/http'
 require_relative 'lib/objects/alma_xml_reader'
 require_relative 'lib/objects/configs'
-require_relative 'lib/objects/transaction'
+require_relative 'lib/objects/transaction_factory'
+require_relative 'lib/objects/file_handler'
+require_relative 'lib/objects/templater'
 
-file = nil
-files = Dir['data/*.xml']
-files.each do |f|
-  fo = File.open f
-  # get latest file
-  file = fo if !file || (fo && fo.mtime > file.mtime)
+secrets      = Configs.read 'secrets'
+defaults     = Configs.read 'defaults'
+vendors      = Configs.read 'vendors'
+chartstrings = Configs.read 'chartstrings'
+
+file = FileHandler.get_latest
+
+transactions = TransactionFactory.create_all_from(
+                                                file,
+                                                vendors,
+                                                chartstrings
+)
+
+output = Templater.apply(
+                     transactions,
+                     defaults,
+                     secrets
+)
+
+FileHandler.archive output
+FileHandler.archive_source file
+
+endpoint = URI secrets['endpoint']
+
+begin
+  response = Net::HTTP.post_form endpoint, xml: output # TODO: need doc from PS folks for endpoint
+rescue StandardError => e
+  fail("Could not reach PS endpoint: #{e.message}")
 end
 
-@secrets      = Configs.read 'secrets'
-@defaults     = Configs.read 'defaults'
-@vendors      = Configs.read 'vendors'
-@chartstrings = Configs.read 'chartstrings'
-
-transactions = AlmaXmlReader.invoice_nodes(file).map do |node|
-  vendor = AlmaXmlReader.vendor_from node
-  chartstring = AlmaXmlReader.chartstring_from node
-  Transaction.new node, vendor, chartstring
+if response.code == '200'
+  puts 'Submission accepted'
+else
+  puts "Submission error. Code: #{response.code} Message: #{response.message}"
 end
-
-# Do templating
-
-puts 'Done'
-
-
