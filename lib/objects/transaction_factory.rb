@@ -6,7 +6,6 @@ class TransactionFactory
     AlmaXmlReader.invoice_nodes(file).each do |node|
       alma_vendor       = AlmaXmlReader.vendor_from node
       alma_chartstring  = AlmaXmlReader.chartstring_from node
-      # ps_vendor         = vendors[alma_vendor]
       # ps_chartstring    = chartstrings[alma_chartstring]
       ps_vendor = vendors['test_vendor_1'] # TODO for testing
       ps_chartstring = chartstrings['default'] # TODO for testing

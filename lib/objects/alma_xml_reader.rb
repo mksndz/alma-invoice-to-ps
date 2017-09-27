@@ -3,7 +3,7 @@ class AlmaXmlReader
   INVOICE_NODE_NAME = 'invoice'.freeze
   LINE_ITEM_NODE_NAME = 'invoice_line'.freeze
   FUND_INFO_NODE_NAME = 'fund_info'.freeze
-  VENDOR_NODE_NAME = 'vendor_code'.freeze
+  VENDOR_NODE_NAME = 'vendor_FinancialSys_Code'.freeze
   CHARTSTRING_NODE_NAME = 'fund_type_desc'.freeze
   def self.invoice_nodes(file)
     data = Nokogiri File.read(file.path)
