@@ -1,17 +1,21 @@
-require 'net/http'
-require 'savon'
 require_relative 'lib/objects/alma_xml_reader'
 require_relative 'lib/objects/configs'
 require_relative 'lib/objects/transaction_factory'
 require_relative 'lib/objects/file_handler'
 require_relative 'lib/objects/templater'
+require_relative 'lib/objects/notification_service'
+require_relative 'lib/objects/submission_service'
 
 secrets      = Configs.read 'secrets'
 defaults     = Configs.read 'defaults'
 vendors      = Configs.read 'vendors'
 chartstrings = Configs.read 'chartstrings'
 
+notifier = NotificationService.new secrets['slack_webhook_url']
+
 file = FileHandler.get_latest
+
+notifier.info "processing file #{}"
 
 transactions = TransactionFactory.create_all_from(
                                                 file,
@@ -29,14 +33,7 @@ FileHandler.archive output
 FileHandler.archive_source file
 
 # SOAP processing
-ap_client = Savon.client(
-    wsse_auth: [
-        secrets['s_user'],
-        secrets['s_pass']
-    ],
-    wsdl: secrets['endpoint_wsdl'],
-    log_level: :debug,
-    pretty_print_xml: true
-)
+ss = SubmissionService.new secrets['endpoint_wsdl'], notifier
+ss.transmit output
 
-response = ap_client.call :voucher_build, xml: output
+notifier.info 'Execution complete'
