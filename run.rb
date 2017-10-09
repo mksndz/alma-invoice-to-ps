@@ -15,7 +15,7 @@ notifier = NotificationService.new secrets['slack_webhook_url']
 
 file = FileHandler.get_latest
 
-notifier.info "processing file #{}"
+notifier.info "processing file `#{file.path}`"
 
 transactions = TransactionFactory.create_all_from(
                                                 file,
