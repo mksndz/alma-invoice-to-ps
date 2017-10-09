@@ -30,10 +30,11 @@ output = Templater.apply(
 )
 
 FileHandler.archive output
-FileHandler.archive_source file
 
 # SOAP processing
 ss = SubmissionService.new secrets['endpoint_wsdl'], notifier
-ss.transmit output
+response = ss.transmit output
+
+FileHandler.archive_source file
 
 notifier.info 'Execution complete'

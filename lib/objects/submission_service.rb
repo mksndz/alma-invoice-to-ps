@@ -17,10 +17,16 @@ class SubmissionService
                 xml: body
     )
   rescue Savon::SOAPFault => e
-    @notifier.error "SOAP Error: ```#{e.message}```"
+    msg = "SOAP Error: ```#{e.message}```"
+    @notifier.error msg
+    fail msg
   rescue Savon::HTTPError => e
-    @notifier.error "HTTP Error: ```#{e.message}```"
+    msg = "HTTP Error: ```#{e.message}```"
+    @notifier.error msg
+    fail msg
   rescue StandardError => e
-    @notifier.error "Other Error: ```#{e.message}```"
+    msg = "Other Error: ```#{e.message}```"
+    @notifier.error msg
+    fail msg
   end
 end

@@ -7,8 +7,8 @@ class TransactionFactory
       alma_vendor       = AlmaXmlReader.vendor_from node
       alma_chartstring  = AlmaXmlReader.chartstring_from node
       # ps_chartstring    = chartstrings[alma_chartstring]
-      ps_vendor = vendors['test_vendor_1'] # TODO for testing
-      ps_chartstring = chartstrings['default'] # TODO for testing
+      ps_vendor = vendors['test_vendor_1'] # TODO use value of vendor_FinancialSys_Code instead of lookup
+      ps_chartstring = chartstrings['default'] # TODO use value of fund_info_list -> fund_info - if 'stf' then use stf fund
       unless ps_vendor
         "No Vendor found in lookup for: #{alma_vendor}"
         next
