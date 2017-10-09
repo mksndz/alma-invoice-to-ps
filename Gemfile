@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 
 gem 'minitest'
 gem 'net-sftp', '2.1.2'
-gem 'slack-api'
 gem 'nokogiri'
+gem 'savon', '~> 2.11.1'
+gem 'slack-api'
 

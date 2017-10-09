@@ -1,0 +1,51 @@
+<VOUCHER_BUILD xmlns="http://xmlns.oracle.com/Enterprise/Tools/schemas/VOUCHER_BUILD.VERSION_3">
+  <MsgData><% transactions.each do |t| %>
+    <Transaction>
+      <VCHR_HDR_STG class="R">
+        <BUSINESS_UNIT><%= defaults.gl_business_unit %></BUSINESS_UNIT>
+        <VOUCHER_ID><%= defaults.voucher_id %></VOUCHER_ID>
+        <LEASE_PYMNT_DT><%= current_date %></LEASE_PYMNT_DT>
+        <INVOICE_ID><%= t.invoice_id %></INVOICE_ID>
+        <INVOICE_DT><%= t.invoice_date %></INVOICE_DT>
+        <VENDOR_ID><%= t.vendor_id %></VENDOR_ID>
+        <VENDOR_LOC><%= t.vendor_loc %></VENDOR_LOC>
+        <GRP_AP_ID><%= defaults.grp_ap_id %></GRP_AP_ID>
+        <OPRID><%= secrets.owner_myid %></OPRID>
+        <ACCOUNTING_DT><%= current_date %></ACCOUNTING_DT>
+        <!-- Sum of all line items NUMBER(26,3) -->
+        <GROSS_AMT><%= t.amount %></GROSS_AMT>
+        <MISC_CHARGE_CODE><%= defaults.misc_charge_code %></MISC_CHARGE_CODE>
+        <VCHR_SRC><%= defaults.vchr_src %></VCHR_SRC>
+        <!-- Line Items follow... --><% t.line_items.each do |line_item| %>
+        <VCHR_LINE_STG class="R">
+          <BUSINESS_UNIT><%= defaults.gl_business_unit %></BUSINESS_UNIT>
+          <VOUCHER_ID><%= defaults.voucher_id %></VOUCHER_ID>
+          <!-- Current date: CCYY-MM-DD -->
+          <LEASE_PYMNT_DT><%= current_date %></LEASE_PYMNT_DT>
+          <VOUCHER_LINE_NUM><%= line_item.number %></VOUCHER_LINE_NUM>
+          <!-- Line item amount - NUMBER(26,3)-->
+          <MERCHANDISE_AMT><%= line_item.amount %></MERCHANDISE_AMT>
+          <BUSINESS_UNIT_GL><%= defaults.gl_business_unit %></BUSINESS_UNIT_GL><% line_item.discharges.each do |dis| %>
+          <VCHR_DIST_STG class="R">
+            <BUSINESS_UNIT><%= defaults.gl_business_unit %></BUSINESS_UNIT>
+            <VOUCHER_ID><%= defaults.voucher_id %></VOUCHER_ID>
+            <LEASE_PYMNT_DT><%= current_date %></LEASE_PYMNT_DT>
+            <VOUCHER_LINE_NUM><%= line_item.number %></VOUCHER_LINE_NUM>
+            <DISTRIB_LINE_NUM><%= dis.number %></DISTRIB_LINE_NUM>
+            <BUSINESS_UNIT_GL><%= defaults.gl_business_unit %></BUSINESS_UNIT_GL>
+            <ACCOUNT><%= dis.chartstring.account %></ACCOUNT>
+            <DEPTID><%= dis.chartstring.department_code %></DEPTID>
+            <MERCHANDISE_AMT><%= dis.amount %></MERCHANDISE_AMT>
+            <FUND_CODE><%= dis.chartstring.fund_code %></FUND_CODE>
+            <CLASS_FLD><%= dis.chartstring.class_field %></CLASS_FLD>
+            <PROGRAM_CODE><%= dis.chartstring.program_code %></PROGRAM_CODE>
+            <BUDGET_REF><%= dis.fiscal_year %></BUDGET_REF>
+          </VCHR_DIST_STG><% end %>
+        </VCHR_LINE_STG><% end %>
+      </VCHR_HDR_STG>
+      <PSCAMA class="R">
+        <AUDIT_ACTN><%= defaults.audit_actn %></AUDIT_ACTN>
+      </PSCAMA>
+    </Transaction><% end %>
+  </MsgData>
+</VOUCHER_BUILD>

@@ -1,4 +1,5 @@
 require 'net/http'
+require 'savon'
 require_relative 'lib/objects/alma_xml_reader'
 require_relative 'lib/objects/configs'
 require_relative 'lib/objects/transaction_factory'
@@ -27,16 +28,15 @@ output = Templater.apply(
 FileHandler.archive output
 FileHandler.archive_source file
 
-endpoint = URI secrets['endpoint']
+# SOAP processing
+ap_client = Savon.client(
+    wsse_auth: [
+        secrets['s_user'],
+        secrets['s_pass']
+    ],
+    wsdl: secrets['endpoint_wsdl'],
+    log_level: :debug,
+    pretty_print_xml: true
+)
 
-begin
-  response = Net::HTTP.post_form endpoint, xml: output # TODO: need doc from PS folks for endpoint
-rescue StandardError => e
-  fail("Could not reach PS endpoint: #{e.message}")
-end
-
-if response.code == '200'
-  puts 'Submission accepted'
-else
-  puts "Submission error. Code: #{response.code} Message: #{response.message}"
-end
+response = ap_client.call :voucher_build, xml: output
