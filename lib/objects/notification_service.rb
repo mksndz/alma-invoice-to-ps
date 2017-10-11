@@ -9,6 +9,6 @@ class NotificationService
   end
 
   def error(message)
-    @slack.ping "#{message} do something someone! <@here>"
+    @slack.ping "#{message}"
   end
 end

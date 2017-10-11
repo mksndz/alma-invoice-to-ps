@@ -32,9 +32,14 @@ output = Templater.apply(
 FileHandler.archive output
 
 # SOAP processing
-ss = SubmissionService.new secrets['endpoint_wsdl'], notifier
+ss = SubmissionService.new secrets['endpoint_url'], notifier
 response = ss.transmit output
 
-FileHandler.archive_source file
+if response.success?
+  notifier.info "Execution completed successfully. PS Transaction ID: `#{response.header[:transactionid]}`"
+  FileHandler.archive_source file
+else
+  notifier.error 'Execution Failed :('
+end
 
-notifier.info 'Execution complete'
+

@@ -1,11 +1,13 @@
 require 'savon'
 
 class SubmissionService
-  SUBMISSION_ACTION = :voucher_build
-  def initialize(wsdl, notifier)
+  SUBMISSION_ACTION = 'VOUCHER_BUILD'.freeze
+  TARGET_NAMESPACE = 'http://xmlns.oracle.com/Enterprise/Tools/schemas/VOUCHER_BUILD.VERSION_3'.freeze
+  def initialize(endpoint, notifier)
     @notifier = notifier
     @service = Savon.client(
-        wsdl: wsdl,
+        endpoint: endpoint,
+        namespace: TARGET_NAMESPACE,
         log_level: :debug,
         pretty_print_xml: true
     )
@@ -13,11 +15,12 @@ class SubmissionService
 
   def transmit(body)
     @service.call(
-                SUBMISSION_ACTION,
+                :voucher_build,
+                soap_action: 'VOUCHER_BUILD.VERSION_3',
                 xml: body
     )
   rescue Savon::SOAPFault => e
-    msg = "SOAP Error: ```#{e.message}```"
+    msg = "SOAP Error: ```#{e.message}: #{e.xml}```"
     @notifier.error msg
     fail msg
   rescue Savon::HTTPError => e
