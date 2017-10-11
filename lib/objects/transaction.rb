@@ -1,12 +1,13 @@
 require_relative 'line_item_factory'
 require_relative 'alma_xml_reader'
+
 class Transaction
   attr_accessor :line_items
   attr_accessor :invoice_id
   attr_accessor :invoice_date
   attr_accessor :vendor_id
-  attr_accessor :vendor_loc
   attr_accessor :amount
+
   def initialize(invoice_node, vendor, chartstring)
     self.line_items = LineItemFactory.create_all_from(
         AlmaXmlReader.line_item_nodes_from(invoice_node),
@@ -17,7 +18,6 @@ class Transaction
         AlmaXmlReader.get_value 'invoice_date', invoice_node
     )
     self.vendor_id = vendor
-    self.vendor_loc = vendor
     self.amount = AlmaXmlReader.get_value(
         'sum',
         AlmaXmlReader.get_value(
@@ -27,6 +27,7 @@ class Transaction
         )
     )
   end
+
   private
   def to_ps_date(date)
     date_elements = date.split('/')

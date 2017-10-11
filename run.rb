@@ -15,7 +15,7 @@ notifier = NotificationService.new secrets['slack_webhook_url']
 
 file = FileHandler.get_latest
 
-notifier.info "processing file `#{file.path}`"
+notifier.info "Processing file `#{file.path}`."
 
 transactions = TransactionFactory.create_all_from(
                                                 file,
@@ -31,12 +31,11 @@ output = Templater.apply(
 
 FileHandler.archive output
 
-# SOAP processing
 ss = SubmissionService.new secrets['endpoint_url'], notifier
 response = ss.transmit output
 
 if response.success?
-  notifier.info "Execution completed successfully. PS Transaction ID: `#{response.header[:transactionid]}`"
+  notifier.info "Execution completed successfully. PS Transaction ID: `#{response.header[:transactionid]}`."
   FileHandler.archive_source file
 else
   notifier.error 'Execution Failed :('
