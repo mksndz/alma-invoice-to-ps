@@ -8,7 +8,6 @@ require_relative 'lib/objects/submission_service'
 
 secrets      = Configs.read 'secrets'
 defaults     = Configs.read 'defaults'
-vendors      = Configs.read 'vendors'
 chartstrings = Configs.read 'chartstrings'
 
 notifier = NotificationService.new secrets['slack_webhook_url']
@@ -19,7 +18,6 @@ notifier.info "Processing file `#{file.path}`."
 
 transactions = TransactionFactory.create_all_from(
                                                 file,
-                                                vendors,
                                                 chartstrings
 )
 
@@ -34,7 +32,7 @@ FileHandler.archive output.gsub(secrets['s_pass'],'*******')
 ss = SubmissionService.new secrets['endpoint_url'], notifier
 response = ss.transmit output
 
-transaction_id = response.http.headers[:transactionid]
+transaction_id = response.http.headers['transactionid']
 
 if transaction_id
   notifier.info "Execution completed successfully. PS Transaction ID: `#{transaction_id}`."

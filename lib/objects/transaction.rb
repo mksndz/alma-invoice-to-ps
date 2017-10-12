@@ -8,7 +8,7 @@ class Transaction
   attr_accessor :vendor_id
   attr_accessor :amount
 
-  def initialize(invoice_node, vendor, chartstring)
+  def initialize(invoice_node, chartstring)
     self.line_items = LineItemFactory.create_all_from(
         AlmaXmlReader.line_item_nodes_from(invoice_node),
         chartstring
@@ -17,7 +17,8 @@ class Transaction
     self.invoice_date = to_ps_date(
         AlmaXmlReader.get_value 'invoice_date', invoice_node
     )
-    self.vendor_id = vendor
+    # self.vendor_id = AlmaXmlReader.get_value 'vendor_FinancialSys_Code', invoice_node #TODO: when we have VN numbers....
+    self.vendor_id = '0000000001'
     self.amount = AlmaXmlReader.get_value(
         'sum',
         AlmaXmlReader.get_value(
