@@ -34,11 +34,14 @@ FileHandler.archive output
 ss = SubmissionService.new secrets['endpoint_url'], notifier
 response = ss.transmit output
 
-if response.success?
-  notifier.info "Execution completed successfully. PS Transaction ID: `#{response.header[:transactionid]}`."
+transaction_id = response.http.headers[:transactionid]
+
+if transaction_id
+  notifier.info "Execution completed successfully. PS Transaction ID: `#{transaction_id}`."
   FileHandler.archive_source file
 else
-  notifier.error 'Execution Failed :('
+  notifier.error 'Transaction failed'
 end
+
 
 
