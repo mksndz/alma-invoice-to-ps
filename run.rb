@@ -29,7 +29,7 @@ output = Templater.apply(
                      secrets
 )
 
-FileHandler.archive output
+FileHandler.archive output.gsub(secrets['s_pass'],'*******')
 
 ss = SubmissionService.new secrets['endpoint_url'], notifier
 response = ss.transmit output
