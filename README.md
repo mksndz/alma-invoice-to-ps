@@ -10,10 +10,10 @@ Parses the output of Alma's [Invoice Export](https://developers.exlibrisgroup.co
 
 ### Details
 
-- Script pulls latest Alma export from a specified local directory
+- Script pulls latest Alma export from a specified local directory (see [FileHandler](https://github.com/GIL-GALILEO/alma-invoice-to-ps/blob/master/lib/objects/file_handler.rb))
 - To use, a few config files will need to be created with your data:
     1. `secrets.yml` - holding sensitive information
-        - `endpoint_ulr` url for SOAP endpoint
+        - `endpoint_url` url for SOAP endpoint
         - `s_user` user for submission auth
         - `s_pass` pass for submission auth
         - `owner_myid` for record attribution in PS
