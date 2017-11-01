@@ -32,10 +32,13 @@ FileHandler.archive output.gsub(secrets['s_pass'],'*******')
 ss = SubmissionService.new secrets['endpoint_url'], notifier
 response = ss.transmit output
 
-transaction_id = response.http.headers['transactionid']
-
-if transaction_id
-  notifier.info "Execution completed successfully. PS Transaction ID: `#{transaction_id}`."
+if response.success?
+  if http.headers.key? 'transactionid'
+    transaction_id = response.http.headers['transactionid']
+    notifier.info "Execution completed successfully. PS Transaction ID: `#{transaction_id}`."
+  else
+    notifier.info 'Execution completed successfully, but no PD Transaction ID provided.'
+  end
   FileHandler.archive_source file
 else
   notifier.error 'Transaction failed'
