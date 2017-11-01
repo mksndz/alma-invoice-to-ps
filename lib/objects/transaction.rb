@@ -18,7 +18,7 @@ class Transaction
         AlmaXmlReader.get_value 'invoice_date', invoice_node
     )
     # self.vendor_id = AlmaXmlReader.get_value 'vendor_FinancialSys_Code', invoice_node #TODO: when we have VN numbers....
-    self.vendor_id = '0000000001'
+    self.vendor_id = %w(VN0078431 VN0077947 VN0007754).sample # TODO: for testing
     self.amount = AlmaXmlReader.get_value(
         'sum',
         AlmaXmlReader.get_value(
