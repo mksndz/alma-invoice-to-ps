@@ -33,7 +33,7 @@ ss = SubmissionService.new secrets['endpoint_url'], notifier
 response = ss.transmit output
 
 if response.success?
-  if http.headers.key? 'transactionid'
+  if response.http.headers.key? 'transactionid'
     transaction_id = response.http.headers['transactionid']
     notifier.info "Execution completed successfully. PS Transaction ID: `#{transaction_id}`."
   else
