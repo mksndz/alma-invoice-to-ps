@@ -16,7 +16,7 @@ file = FileHandler.get_latest
 
 unless file
   puts 'No file(s) found'
-  return
+  fail
 end
 
 notifier.info "Processing file `#{file.path}`."
