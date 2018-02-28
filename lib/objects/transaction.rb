@@ -6,6 +6,7 @@ class Transaction
   attr_accessor :invoice_id
   attr_accessor :invoice_date
   attr_accessor :vendor_id
+  attr_accessor :vendor_name
   attr_accessor :amount
 
   def initialize(invoice_node, chartstring)
@@ -18,7 +19,9 @@ class Transaction
         AlmaXmlReader.get_value 'invoice_date', invoice_node
     )
     # self.vendor_id = AlmaXmlReader.get_value 'vendor_FinancialSys_Code', invoice_node #TODO: when we have VN numbers....
-    self.vendor_id = %w(VN0078431 VN0077947 VN0007754).sample # TODO: for testing
+    # self.vendor_id = %w(VN0078431 VN0077947 VN0007754).sample # TODO: for SIT testing
+    self.vendor_id = %w(VN0009820 VN0070479 VN0079441 VN0036618 VN0006939 VN0079585 VN0078438).sample # TODO: for E2E testing
+    self.vendor_name = AlmaXmlReader.get_value 'vendor_name', invoice_node
     self.amount = AlmaXmlReader.get_value(
         'sum',
         AlmaXmlReader.get_value(

@@ -1,7 +1,7 @@
 require_relative 'transaction'
 require_relative 'alma_xml_reader'
 class TransactionFactory
-  def self.create_all_from(file, chartstrings)
+  def self.create_all_from(file, chartstrings, mailer)
     transactions = []
     AlmaXmlReader.invoice_nodes(file).each do |node|
       alma_chartstring  = AlmaXmlReader.chartstring_from node
@@ -11,10 +11,12 @@ class TransactionFactory
         "No Chartstring found in lookup for: #{alma_chartstring}"
         next
       end
-      transactions << Transaction.new(
+      transaction = Transaction.new(
           node,
           ps_chartstring
       )
+      mailer.add_invoice_line transaction
+      transactions << transaction
     end
     transactions
   end
