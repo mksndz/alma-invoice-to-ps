@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 require 'erb'
 require 'ostruct'
+
 class Templater
   TEMPLATE_PATH = 'lib/templates/ps.xml.erb'.freeze
   def self.apply(transactions, defaults, secrets)

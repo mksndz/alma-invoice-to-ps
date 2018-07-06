@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'discharge_factory'
 require_relative 'alma_xml_reader'
 require 'ostruct'

@@ -1,15 +1,18 @@
+# frozen_string_literal: true
+
 require 'savon'
 
 class SubmissionService
-  SUBMISSION_ACTION = 'VOUCHER_BUILD'.freeze
-  TARGET_NAMESPACE = 'http://xmlns.oracle.com/Enterprise/Tools/schemas/VOUCHER_BUILD.VERSION_3'.freeze
+  SUBMISSION_ACTION = 'VOUCHER_BUILD'
+  TARGET_NAMESPACE = 'http://xmlns.oracle.com/Enterprise/Tools/schemas/VOUCHER_BUILD.VERSION_3'
+
   def initialize(endpoint, notifier)
     @notifier = notifier
     @service = Savon.client(
-        endpoint: endpoint,
-        namespace: TARGET_NAMESPACE,
-        log_level: :debug,
-        pretty_print_xml: true
+      endpoint: endpoint,
+      namespace: TARGET_NAMESPACE,
+      log_level: :debug,
+      pretty_print_xml: true
     )
   end
 

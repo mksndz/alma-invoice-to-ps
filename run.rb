@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'lib/objects/alma_xml_reader'
 require_relative 'lib/objects/configs'
 require_relative 'lib/objects/transaction_factory'
@@ -18,27 +20,21 @@ file = FileHandler.get_latest
 
 unless file
   puts 'No file(s) found'
-  fail
+  notifier.info 'No files to process today!'
+  exit
 end
 
 notifier.info "UGA: Processing file `#{file.path}`."
 
-transactions = TransactionFactory.create_all_from(
-                  file,
-                  chartstrings,
-                  mailer
-               )
+transactions = TransactionFactory.create_all_from(file, chartstrings, mailer,
+                                                  notifier)
 
-output = Templater.apply(
-                     transactions,
-                     defaults,
-                     secrets
-)
+output = Templater.apply(transactions, defaults, secrets)
 
 FileHandler.archive output.gsub(secrets['s_pass'],'*******')
 
 ss = SubmissionService.new secrets['endpoint_url'], notifier
-response = ss.transmit output
+# response = ss.transmit output
 
 if response.success?
   if response.http.headers.key? 'transactionid'
@@ -55,5 +51,5 @@ else
   notifier.error 'Transaction failed'
 end
 
-
+exit
 

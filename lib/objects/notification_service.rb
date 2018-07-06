@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 require 'slack-notifier'
+
 class NotificationService
   def initialize(slack_url)
     @slack = Slack::Notifier.new slack_url

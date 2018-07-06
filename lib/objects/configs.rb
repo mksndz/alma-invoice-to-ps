@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 require 'yaml'
+
 class Configs
   CONFIG_DIR = 'config'.freeze
   def self.read(name)

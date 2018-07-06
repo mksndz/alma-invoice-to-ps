@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'line_item'
 require_relative 'alma_xml_reader'
 class LineItemFactory

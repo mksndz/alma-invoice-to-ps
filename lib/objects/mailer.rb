@@ -52,8 +52,8 @@ END
   def invoice_notification_line(invoice, i)
     num =(i + 1).to_s
     "#{num}. Vendor: #{invoice.vendor_name} (#{invoice.vendor_id})\n" +
-    "#{" " * num.length}  Invoice: No. #{invoice.invoice_id} for $#{'%.2f' % invoice.amount} on #{invoice.invoice_date}\n" +
-    "#{" " * num.length}  Accounts Used: #{ps_accounts_used_info(invoice)}"
+    "#{' ' * num.length}  Invoice: No. #{invoice.invoice_id} for $#{'%.2f' % invoice.amount} on #{invoice.invoice_date}\n" +
+    "#{' ' * num.length}  Accounts Used: #{ps_accounts_used_info(invoice)}"
   end
 
   def email(to, message)
@@ -65,18 +65,16 @@ END
       begin
         Net::SMTP.start(SMTP_SERVER, 25) do |smtp|
           smtp.send_message(
-              message,
-              FROM_ADDRESS,
-              to
+            message,
+            FROM_ADDRESS,
+            to
           )
         end
       rescue StandardError => e
-        # @institution.logger.warn "Email could not be sent to #{to}. Exception: #{e}"
-        # TODO
+        @notifier.info "Email could not be sent to #{to}. Exception: #{e}"
       end
     else
-      # @institution.logger.warn "Bad email address encountered for #{@institution.code}: #{to}"
-      # TODO
+      @notifier.info "Bad email address encountered: #{to}"
     end
   end
 
