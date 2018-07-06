@@ -44,7 +44,7 @@ if response.success?
   if response.http.headers.key? 'transactionid'
     transaction_id = response.http.headers['transactionid']
     notifier.info "UGA: Invoices Sent: ```#{mailer.print_included_invoices}```"
-    # mailer.send_finished_notification secrets['finished_email_recipients']
+    mailer.send_finished_notification secrets['finished_email_recipients']
     mailer.send_finished_notification
     notifier.info "Execution completed successfully. PS Transaction ID: `#{transaction_id}`."
   else
