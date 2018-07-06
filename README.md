@@ -24,4 +24,6 @@ Parses the output of Alma's [Invoice Export](https://developers.exlibrisgroup.co
         - TODO: add template file
 - You will probably also need to modify the [PS XML template file](https://github.com/GIL-GALILEO/alma-invoice-to-ps/blob/master/lib/templates/ps.xml.erb) to meet your requirements.
 
-© 2017 University of Georgia
+Configuration for Alma XML Invoice export can be found in Integration Profiles -> Check Requests -> Actions -> Export Invoices for Payment 
+
+© 2018 University of Georgia
