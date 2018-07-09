@@ -3,6 +3,8 @@
 require_relative 'discharge_factory'
 require_relative 'alma_xml_reader'
 require 'ostruct'
+
+# represent an individual invoice line item
 class LineItem
   attr_accessor :discharges
   attr_accessor :number
@@ -14,6 +16,7 @@ class LineItem
     self.alma_fund = alma_fund_info node
     self.amount = AlmaXmlReader.get_value 'total_price', node
   end
+
   def alma_fund_info(node)
     fund_info_list = AlmaXmlReader.get_value 'fund_info_list', node, true
     return 'Not Specified' unless fund_info_list.any?

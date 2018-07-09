@@ -2,8 +2,9 @@
 
 require 'yaml'
 
+# config reading utility class
 class Configs
-  CONFIG_DIR = 'config'.freeze
+  CONFIG_DIR = 'config'
   def self.read(name)
     YAML.load_file "#{CONFIG_DIR}/#{name}.yml"
   rescue StandardError => e

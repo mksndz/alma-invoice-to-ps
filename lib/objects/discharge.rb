@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# represent a discharge
 class Discharge
   attr_accessor :chartstring
   attr_accessor :number

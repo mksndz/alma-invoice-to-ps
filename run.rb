@@ -9,6 +9,8 @@ require_relative 'lib/objects/notification_service'
 require_relative 'lib/objects/submission_service'
 require_relative 'lib/objects/mailer'
 
+ALMA_XML_OUTPUT_PATH = '/gilftpfiles/uga/finance/checkreq'
+
 secrets      = Configs.read 'secrets'
 defaults     = Configs.read 'defaults'
 chartstrings = Configs.read 'chartstrings'
@@ -16,22 +18,26 @@ chartstrings = Configs.read 'chartstrings'
 notifier = NotificationService.new secrets['slack_webhook_url']
 mailer = Mailer.new notifier
 
-file = FileHandler.get_latest
+# files = FileHandler.get_files_from ALMA_XML_OUTPUT_PATH
+files = FileHandler.get_files_from
 
-unless file
+unless files.any?
   puts 'No file(s) found'
-  notifier.info 'No files to process today!'
+  notifier.info 'No files found to process!'
   exit
 end
 
-notifier.info "UGA: Processing file `#{file.path}`."
-
-transactions = TransactionFactory.create_all_from(file, chartstrings, mailer,
-                                                  notifier)
+# build transactions from all files
+transactions = []
+files.each do |file|
+  notifier.info "UGA: Processing file `#{file}`."
+  transactions += TransactionFactory.create_all_from(file, chartstrings, mailer,
+                                                     notifier)
+end
 
 output = Templater.apply(transactions, defaults, secrets)
 
-FileHandler.archive output.gsub(secrets['s_pass'],'*******')
+FileHandler.archive output.gsub(secrets['s_pass'], '*******')
 
 ss = SubmissionService.new secrets['endpoint_url'], notifier
 # response = ss.transmit output
@@ -41,12 +47,11 @@ if response.success?
     transaction_id = response.http.headers['transactionid']
     notifier.info "UGA: Invoices Sent: ```#{mailer.print_included_invoices}```"
     mailer.send_finished_notification secrets['finished_email_recipients']
-    mailer.send_finished_notification
     notifier.info "Execution completed successfully. PS Transaction ID: `#{transaction_id}`."
   else
     notifier.info 'Execution completed successfully, but no PD Transaction ID provided.'
   end
-  FileHandler.archive_source file
+  FileHandler.archive_source files
 else
   notifier.error 'Transaction failed'
 end

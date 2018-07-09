@@ -1,6 +1,10 @@
+# frozen_string_literal: true
+
 require_relative 'discharge'
 require_relative 'alma_xml_reader'
 require 'ostruct'
+
+# generate discharges
 class DischargeFactory
   def self.create_from(node, chartstring)
     i = 0

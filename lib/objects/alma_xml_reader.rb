@@ -12,7 +12,7 @@ class AlmaXmlReader
   FUND_TYPE_NODE = 'fund_type_desc'
 
   def self.invoice_nodes(file)
-    data = Nokogiri File.read(file.path)
+    data = Nokogiri File.read(file)
     data.css(INVOICE_NODE_NAME)
   end
 

@@ -18,10 +18,7 @@ class TransactionFactory
         notifier.info "No Chartstring found in lookup for: #{alma_fund_type_desc}"
         next
       end
-      transaction = Transaction.new(
-        node,
-        ps_chartstring
-      )
+      transaction = Transaction.new(node, ps_chartstring)
       mailer.add_invoice_line transaction
       transactions << transaction
     end

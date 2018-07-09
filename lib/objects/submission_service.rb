@@ -2,6 +2,7 @@
 
 require 'savon'
 
+# handle the push to peoplesoft
 class SubmissionService
   SUBMISSION_ACTION = 'VOUCHER_BUILD'
   TARGET_NAMESPACE = 'http://xmlns.oracle.com/Enterprise/Tools/schemas/VOUCHER_BUILD.VERSION_3'

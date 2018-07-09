@@ -3,8 +3,9 @@
 require 'erb'
 require 'ostruct'
 
+# apply template to data
 class Templater
-  TEMPLATE_PATH = 'lib/templates/ps.xml.erb'.freeze
+  TEMPLATE_PATH = 'lib/templates/ps.xml.erb'
   def self.apply(transactions, defaults, secrets)
     current_date = Time.now.strftime('%Y-%m-%d')
     template = ERB.new File.open(TEMPLATE_PATH).read

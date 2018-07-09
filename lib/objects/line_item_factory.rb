@@ -2,6 +2,8 @@
 
 require_relative 'line_item'
 require_relative 'alma_xml_reader'
+
+# generate line items
 class LineItemFactory
   def self.create_all_from(nodes, chartstring)
     line_items = []

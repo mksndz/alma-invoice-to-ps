@@ -3,6 +3,7 @@
 require_relative 'line_item_factory'
 require_relative 'alma_xml_reader'
 
+# represent a distinct transaction
 class Transaction
   attr_accessor :line_items
   attr_accessor :invoice_id

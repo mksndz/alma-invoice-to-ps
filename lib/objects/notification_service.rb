@@ -2,6 +2,7 @@
 
 require 'slack-notifier'
 
+# do the slacking
 class NotificationService
   def initialize(slack_url)
     @slack = Slack::Notifier.new slack_url
@@ -12,6 +13,6 @@ class NotificationService
   end
 
   def error(message)
-    @slack.ping "#{message}"
+    @slack.ping message
   end
 end
