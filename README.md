@@ -4,6 +4,13 @@
 
 Parses the output of Alma's [Invoice Export](https://developers.exlibrisgroup.com/alma/integrations/finance/invoice-export) ([XML format definition](https://developers.exlibrisgroup.com/alma/apis/xsd/invoice_payment.xsd)), converts to PeopleSoft XML, and transmits to SOAP endpoint.
 
+## Alma Configuration
+
+A few configuration values impact the operation of this Integration:
+
+- `exportPrepaidInv` should be set to false so that prepaid accounts do not generate check requests.
+- `handle_invoice_payment` must be set to true. See [Ex Libris Knowledge Center](https://knowledge.exlibrisgroup.com/Alma/Product_Documentation/010Alma_Online_Help_(English)/020Acquisitions/030Invoicing/060Working_with_Invoices_Waiting_for_Payment). 
+
 ## Usage
  
 `ruby run.rb`
