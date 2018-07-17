@@ -13,7 +13,10 @@ class DischargeFactory
       Discharge.new(
         i,
         OpenStruct.new(chartstring),
-        AlmaXmlReader.get_value('sum', d),
+        AlmaXmlReader.get_value(
+          'sum',
+          AlmaXmlReader.get_value('amount', d, true).first
+        ),
         AlmaXmlReader.get_value('fiscal_period', d)[-4..-1]
       )
     end
