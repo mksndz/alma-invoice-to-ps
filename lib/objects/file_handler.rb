@@ -7,7 +7,7 @@ class FileHandler
   ARCHIVE_PATH = 'archive'
   ORIGINALS_PATH = 'originals'
 
-  def self.get_files_from(path = DATA_PATH)
+  def self.get_files_from(path)
     Dir["#{path}/*.xml"]
   end
 

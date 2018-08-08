@@ -18,8 +18,7 @@ chartstrings = Configs.read 'chartstrings'
 notifier = NotificationService.new secrets['slack_webhook_url']
 mailer = Mailer.new notifier
 
-# files = FileHandler.get_files_from ALMA_XML_OUTPUT_PATH
-files = FileHandler.get_files_from
+files = FileHandler.get_files_from secrets['alma_output_path']
 
 unless files.any?
   puts 'No file(s) found'
@@ -40,13 +39,13 @@ output = Templater.apply(transactions, defaults, secrets)
 FileHandler.archive output.gsub(secrets['s_pass'], '*******')
 
 ss = SubmissionService.new secrets['endpoint_url'], notifier
-# response = ss.transmit output
+response = ss.transmit output
 
 if response.success?
   if response.http.headers.key? 'transactionid'
     transaction_id = response.http.headers['transactionid']
     notifier.info "UGA: Invoices Sent: ```#{mailer.print_included_invoices}```"
-    mailer.send_finished_notification secrets['finished_email_recipients']
+    # mailer.send_finished_notification secrets['finished_email_recipients']
     notifier.info "Execution completed successfully. PS Transaction ID: `#{transaction_id}`."
   else
     notifier.info 'Execution completed successfully, but no PD Transaction ID provided.'
