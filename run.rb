@@ -45,12 +45,13 @@ if response.success?
   if response.http.headers.key? 'transactionid'
     transaction_id = response.http.headers['transactionid']
     notifier.info "UGA: Invoices Sent: ```#{mailer.print_included_invoices}```"
-    # mailer.send_finished_notification secrets['finished_email_recipients']
+    mailer.send_finished_notification secrets['finished_email_recipients']
     notifier.info "Execution completed successfully. PS Transaction ID: `#{transaction_id}`."
   else
     notifier.info 'Execution completed successfully, but no PD Transaction ID provided.'
   end
   FileHandler.archive_source files
+  FileHandler.remove_original files
 else
   notifier.error 'Transaction failed'
 end
