@@ -21,7 +21,13 @@ class FileHandler
     files.each do |file|
       archive_path = File.join(DATA_PATH, ARCHIVE_PATH, ORIGINALS_PATH,
                                "alma_invoices_#{Time.now.strftime('%Y%m%d')}.xml")
-      File.rename file, archive_path
+      FileUtils.mv file, archive_path
+    end
+  end
+
+  def self.remove_original(files)
+    files.each do |file|
+      File.delete file
     end
   end
 end
