@@ -23,7 +23,7 @@ class Mailer
     recipients = addresses << DEFAULT_TO_ADDRESS
     message = <<MESSAGE
 From: GIL Alma Integrations <#{FROM_ADDRESS}>
-Subject: Invoices Sent to PeopleSoft
+Subject: Libraries Invoices Sent to PeopleSoft
 
 The latest Invoices data was successfully sent to PeopleSoft.
 
