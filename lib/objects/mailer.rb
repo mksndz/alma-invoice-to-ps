@@ -22,16 +22,16 @@ class Mailer
   def send_finished_notification(addresses = [])
     recipients = addresses << DEFAULT_TO_ADDRESS
     message = <<MESSAGE
-  From: GIL Alma Integrations <#{FROM_ADDRESS}>
-  Subject: Invoices Sent to PeopleSoft
+From: GIL Alma Integrations <#{FROM_ADDRESS}>
+Subject: Invoices Sent to PeopleSoft
 
-  The latest Invoices data was successfully sent to PeopleSoft.
+The latest Invoices data was successfully sent to PeopleSoft.
 
-  Included Invoices Info (#{@included_invoices.length}):
+Included Invoices Info (#{@included_invoices.length}):
 
-  #{print_included_invoices}
+#{print_included_invoices}
 
-  Have a nice day!
+Have a nice day!
 MESSAGE
     email recipients, message
   end
