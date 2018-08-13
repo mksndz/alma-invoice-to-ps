@@ -27,7 +27,7 @@ class FileHandler
 
   def self.remove_original(files)
     files.each do |file|
-      File.delete file
+      FileUtils.mv file, File.join(File.dirname(file), 'old')
     end
   end
 end
