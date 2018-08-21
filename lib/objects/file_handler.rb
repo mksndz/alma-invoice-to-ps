@@ -24,10 +24,4 @@ class FileHandler
       FileUtils.mv file, archive_path
     end
   end
-
-  def self.move_original(files)
-    files.each do |file|
-      FileUtils.mv file, File.join(File.dirname(file), 'old')
-    end
-  end
 end

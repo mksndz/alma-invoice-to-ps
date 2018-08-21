@@ -51,10 +51,8 @@ if response.success?
     notifier.info 'Execution completed successfully, but no PD Transaction ID provided.'
   end
   FileHandler.archive_source files
-  FileHandler.move_original files
 else
   notifier.error 'Transaction failed'
 end
 
 exit
-
