@@ -9,14 +9,21 @@ class Mailer
   SMTP_SERVER = 'localhost'
   DEFAULT_TO_ADDRESS = 'mak@uga.edu'
   attr_reader :included_invoices
+  attr_reader :errors
 
   def initialize(notifier)
     @included_invoices = []
+    @errors = []
     @notifier = notifier
   end
 
   def add_invoice_line(invoice)
     @included_invoices << invoice_notification_line(invoice, @included_invoices.length)
+  end
+
+  def add_error(message)
+    @notifier.info message
+    @errors << message
   end
 
   def send_finished_notification(addresses = [])
@@ -31,6 +38,9 @@ Included Invoices Info (#{@included_invoices.length}):
 
 #{print_included_invoices}
 
+Errors:
+#{print_errors}
+
 Have a nice day!
 MESSAGE
     email recipients, message
@@ -38,6 +48,10 @@ MESSAGE
 
   def print_included_invoices
     @included_invoices.join("\n")
+  end
+
+  def print_errors
+    @errors.any? ? @errors.join("\n") : 'None'
   end
 
   private

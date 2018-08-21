@@ -19,8 +19,14 @@ class TransactionFactory
         next
       end
       transaction = Transaction.new(node, ps_chartstring)
-      mailer.add_invoice_line transaction
-      transactions << transaction
+      if !ps_chartstring
+        mailer.add_error "No valid chartstring for Fund Type on Invoice `#{transaction.invoice_id}`"
+      elsif !transaction.vendor_id
+        mailer.add_error "No vendor ID for Invoice `#{transaction.invoice_id}`"
+      else
+        mailer.add_invoice_line transaction
+        transactions << transaction
+      end
     end
     transactions
   end
