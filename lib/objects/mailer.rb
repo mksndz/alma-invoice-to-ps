@@ -9,16 +9,20 @@ class Mailer
   SMTP_SERVER = 'localhost'
   DEFAULT_TO_ADDRESS = 'mak@uga.edu'
   attr_reader :included_invoices
+  attr_reader :invoices_csv
   attr_reader :errors
 
   def initialize(notifier)
     @included_invoices = []
+    @invoices_csv = []
     @errors = []
     @notifier = notifier
   end
 
   def add_invoice_line(invoice)
-    @included_invoices << invoice_notification_line(invoice, @included_invoices.length)
+    num = @included_invoices.length
+    @included_invoices << invoice_notification_line(invoice, num)
+    @invoices_csv << invoice_csv_line(invoice, num)
   end
 
   def add_error(message)
@@ -38,6 +42,10 @@ Included Invoices Info (#{@included_invoices.length}):
 
 #{print_included_invoices}
 
+As CSV:
+
+#{print_invoices_csv}
+
 Errors:
 #{print_errors}
 
@@ -48,6 +56,10 @@ MESSAGE
 
   def print_included_invoices
     @included_invoices.join("\n")
+  end
+
+  def print_invoices_csv
+    @invoices_csv.join("\n")
   end
 
   def print_errors
@@ -67,11 +79,17 @@ MESSAGE
     cs_info.join(', ')
   end
 
-  def invoice_notification_line(invoice, i)
-    num =(i + 1).to_s
+  def invoice_notification_line(invoice, num)
+    num = (num + 1).to_s
     "#{num}. Vendor: #{invoice.vendor_name} (#{invoice.vendor_id})\n" \
       "#{' ' * num.length}  Invoice: No. #{invoice.invoice_id} for $#{'%.2f' % invoice.amount} on #{invoice.invoice_date}\n" \
       "#{' ' * num.length}  Accounts Used: #{ps_accounts_used_info(invoice)}"
+  end
+
+  def invoice_csv_line(invoice, line)
+    num = (line + 1).to_s
+    # line, invoice id, amount, date, vendor name, vendor_id, accounts used
+    "#{num}, #{invoice.invoice_id}, #{invoice.amount.format('%.2f')}, #{invoice.invoice_date}, #{invoice.vendor_name}, #{invoice.vendor_id}, '#{ps_accounts_used_info(invoice)}'"
   end
 
   def email(to, message)
