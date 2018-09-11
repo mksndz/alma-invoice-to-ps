@@ -89,7 +89,7 @@ MESSAGE
   def invoice_csv_line(invoice, line)
     num = (line + 1).to_s
     # line, invoice id, amount, date, vendor name, vendor_id, accounts used
-    "#{num}, #{invoice.invoice_id}, #{format('%.2f', invoice.amount)}, #{invoice.invoice_date}, #{invoice.vendor_name}, #{invoice.vendor_id}, '#{ps_accounts_used_info(invoice)}'"
+    "#{num}, '#{invoice.invoice_id}', #{format('%.2f', invoice.amount)}, '#{invoice.invoice_date}', '#{invoice.vendor_name}', '#{invoice.vendor_id}', '#{ps_accounts_used_info(invoice)}'"
   end
 
   def email(to, message)
