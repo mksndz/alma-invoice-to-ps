@@ -82,14 +82,14 @@ MESSAGE
   def invoice_notification_line(invoice, num)
     num = (num + 1).to_s
     "#{num}. Vendor: #{invoice.vendor_name} (#{invoice.vendor_id})\n" \
-      "#{' ' * num.length}  Invoice: No. #{invoice.invoice_id} for $#{'%.2f' % invoice.amount} on #{invoice.invoice_date}\n" \
+      "#{' ' * num.length}  Invoice: No. #{invoice.invoice_id} for $#{format('%.2f', invoice.amount)} on #{invoice.invoice_date}\n" \
       "#{' ' * num.length}  Accounts Used: #{ps_accounts_used_info(invoice)}"
   end
 
   def invoice_csv_line(invoice, line)
     num = (line + 1).to_s
     # line, invoice id, amount, date, vendor name, vendor_id, accounts used
-    "#{num}, #{invoice.invoice_id}, #{invoice.amount.format('%.2f')}, #{invoice.invoice_date}, #{invoice.vendor_name}, #{invoice.vendor_id}, '#{ps_accounts_used_info(invoice)}'"
+    "#{num}, #{invoice.invoice_id}, #{format('%.2f', invoice.amount)}, #{invoice.invoice_date}, #{invoice.vendor_name}, #{invoice.vendor_id}, '#{ps_accounts_used_info(invoice)}'"
   end
 
   def email(to, message)
