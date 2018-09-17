@@ -31,10 +31,19 @@ class Mailer
   end
 
   def send_finished_notification(addresses = [])
+    csv_filename = "invoices_csv_#{Time.now.strftime('%Y%m%d')}.csv"
+    encoded_csv = print_invoices_csv.pack('m')
+    marker = 'AREAMARKER'
     recipients = addresses << DEFAULT_TO_ADDRESS
     message = <<MESSAGE
 From: GIL Alma Integrations <#{FROM_ADDRESS}>
 Subject: Libraries Invoices Sent to PeopleSoft
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary = #{marker}
+--#{marker}
+
+Content-Type: text/plain
+Content-Transfer-Encoding:8bit
 
 The latest Invoices data was successfully sent to PeopleSoft.
 
@@ -50,6 +59,14 @@ Errors:
 #{print_errors}
 
 Have a nice day!
+--#{marker}
+
+Content-Type: multipart/mixed; name = \"#{csv_filename}\"
+Content-Transfer-Encoding:base64
+Content-Disposition: attachment; filename = #{csv_filename}
+
+#{encoded_csv}
+--#{marker}--
 MESSAGE
     email recipients, message
   end
