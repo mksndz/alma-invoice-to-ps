@@ -2,6 +2,7 @@
 
 require 'net/smtp'
 require 'uri'
+require 'base64'
 
 # sends Emails
 class Mailer
@@ -32,7 +33,7 @@ class Mailer
 
   def send_finished_notification(addresses = [])
     csv_filename = "invoices_csv_#{Time.now.strftime('%Y%m%d')}.csv"
-    encoded_csv = print_invoices_csv.pack('m')
+    encoded_csv = Base64.encode64 print_invoices_csv
     marker = 'AREAMARKER'
     recipients = addresses << DEFAULT_TO_ADDRESS
     message = <<MESSAGE
