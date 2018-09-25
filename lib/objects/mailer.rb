@@ -1,12 +1,9 @@
 # frozen_string_literal: true
 
-require 'net/smtp'
 require 'uri'
 
 # sends Emails
 class Mailer
-  FROM_ADDRESS = 'gil@usg.edu'
-  SMTP_SERVER = 'localhost'
   DEFAULT_TO_ADDRESS = 'mak@uga.edu'
   attr_reader :included_invoices
   attr_reader :invoices_csv
@@ -31,27 +28,34 @@ class Mailer
   end
 
   def send_finished_notification(addresses = [])
-    recipients = addresses << DEFAULT_TO_ADDRESS
     message = <<MESSAGE
-From: GIL Alma Integrations <#{FROM_ADDRESS}>
-Subject: Libraries Invoices Sent to PeopleSoft
-
 The latest Invoices data was successfully sent to PeopleSoft.
 
 Included Invoices Info (#{@included_invoices.length}):
 
 #{print_included_invoices}
 
-As CSV:
-
-#{print_invoices_csv}
-
 Errors:
 #{print_errors}
 
 Have a nice day!
 MESSAGE
-    email recipients, message
+    begin
+      mail = Mail.new do
+        from 'GIL Alma Integrations <gil@usg.edu>'
+        to(addresses << DEFAULT_TO_ADDRESS)
+        subject 'Libraries Invoices Sent to PeopleSoft'
+        body message
+        add_file(
+          filename: "#{Time.now.strftime('%Y%m%d')}_ps_invoices.csv",
+          content: print_invoices_csv
+        )
+      end
+      mail.delivery_method :sendmail
+      mail.deliver
+    rescue StandardError => e
+      @notifier.info "Notification email could not be sent! Error: #{e}"
+    end
   end
 
   def print_included_invoices
@@ -91,23 +95,4 @@ MESSAGE
     # line, invoice id, amount, date, vendor name, vendor_id, accounts used
     "#{num}, '#{invoice.invoice_id}', #{format('%.2f', invoice.amount)}, '#{invoice.invoice_date}', '#{invoice.vendor_name}', '#{invoice.vendor_id}', '#{ps_accounts_used_info(invoice)}'"
   end
-
-  def email(to, message)
-    if to.is_a? Array
-      to.each do |address|
-        email address, message
-      end
-    elsif to.is_a?(String) && to =~ URI::MailTo::EMAIL_REGEXP
-      begin
-        Net::SMTP.start(SMTP_SERVER, 25) do |smtp|
-          smtp.send_message(message, FROM_ADDRESS, to)
-        end
-      rescue StandardError => e
-        @notifier.info "Email could not be sent to #{to}. Exception: #{e}"
-      end
-    else
-      @notifier.info "Bad email address encountered: #{to}"
-    end
-  end
-
 end
