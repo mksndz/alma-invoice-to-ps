@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'mail'
 require 'uri'
 
 # sends Emails
@@ -25,6 +26,23 @@ class Mailer
   def add_error(message)
     @notifier.info message
     @errors << message
+  end
+
+  def send_test_message
+    mail = Mail.new do
+      from 'GIL Alma Integrations <gil@usg.edu>'
+      to(DEFAULT_TO_ADDRESS)
+      subject 'Test'
+      body 'Cheese is Yummy!'
+      add_file(
+        filename: 'test.txt',
+        content: 'What is your favorite cheese?'
+      )
+    end
+    mail.delivery_method :sendmail
+    mail.deliver
+  rescue StandardError => e
+    @notifier.info "Notification email could not be sent! Error: #{e}"
   end
 
   def send_finished_notification(addresses = [])
