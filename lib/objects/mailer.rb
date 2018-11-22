@@ -49,7 +49,7 @@ MESSAGE
         body message
         add_file(
           filename: "#{Time.now.strftime('%Y%m%d')}_ps_invoices.csv",
-          content: print_invoices_csv
+          content: @invoices_csv.join("\n")
         )
       end
       mail.delivery_method :sendmail
