@@ -29,18 +29,19 @@ class Mailer
   end
 
   def send_finished_notification(addresses = [])
-    message = <<MESSAGE
-The latest Invoices data was successfully sent to PeopleSoft.
+    message = <<~MESSAGE
+      The latest Invoices data was successfully sent to PeopleSoft.
 
-Included Invoices Info (#{@included_invoices.length}):
+      Included Invoices Info (#{@included_invoices.length}):
 
-#{print_included_invoices}
+      #{print_included_invoices}
 
-Errors:
-#{print_errors}
+      Errors:
+      #{print_errors}
 
-Have a nice day!
-MESSAGE
+      Have a nice day!
+    MESSAGE
+    attachment_content = print_included_invoices
     begin
       mail = Mail.new do
         from 'GIL Alma Integrations <gil@usg.edu>'
@@ -49,7 +50,7 @@ MESSAGE
         body message
         add_file(
           filename: "#{Time.now.strftime('%Y%m%d')}_ps_invoices.csv",
-          content: @invoices_csv.join("\n")
+          content: attachment_content
         )
       end
       mail.delivery_method :sendmail
