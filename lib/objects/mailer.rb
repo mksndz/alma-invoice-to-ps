@@ -41,7 +41,7 @@ class Mailer
 
       Have a nice day!
     MESSAGE
-    attachment_content = print_included_invoices
+    attachment_content = print_invoices_csv
     begin
       mail = Mail.new do
         from 'GIL Alma Integrations <gil@usg.edu>'
